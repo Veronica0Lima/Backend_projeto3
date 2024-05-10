@@ -25,12 +25,24 @@ def api_users(request):
     return Response(serialized_users.data)
 
 @api_view(['GET', 'DELETE'])
-def api_user(request, user_id):
+def api_user_id(request, user_id):
     try:
         user = User.objects.get(id=user_id)
         if request.method == 'DELETE':
             user.delete()
             print(f"{user.nome} deleted")
+    except User.DoesNotExist:
+        raise Http404()
+    serialized_user = UserSerializer(user)
+    return Response(serialized_user.data)
+
+@api_view(['GET', 'DELETE'])
+def api_user_name(request, name):
+    try:
+        user = User.objects.get(nome=name)
+        if request.method == 'DELETE':
+            user.delete()
+            print(f"{name} deleted")
     except User.DoesNotExist:
         raise Http404()
     serialized_user = UserSerializer(user)
