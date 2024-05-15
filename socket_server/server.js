@@ -13,6 +13,10 @@ io.on('connection', (socket) => {
 
     socket.on('message', (message) => {
         console.log(message);
+        const data = {
+            "text": message.text,
+            "userEnviado": message.userEnviado
+        }
         io.emit('message', message);
     });
 
