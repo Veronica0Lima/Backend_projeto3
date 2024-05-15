@@ -13,13 +13,6 @@ io.on('connection', (socket) => {
 
     socket.on('message', (message) => {
         console.log(message);
-        const data = {
-            "text": message.text,
-            "userEnviado": message.userEnviado
-        }
-        console.log(`${socket.id.slice(0,2)} said ${message}`);
-        console.log(`${socket.id.slice(0,2)} said ${data}`);
-
         io.emit('message', message);
     });
 

@@ -15,6 +15,11 @@
     python manage.py runserver
 
 
+**Para rodar o socket.io**
+    cd socket_server
+    node server.js
+
+
 **Armazenar modificações no banco de dados**
     python manage.py makemigrations
     python manage.py migrate
