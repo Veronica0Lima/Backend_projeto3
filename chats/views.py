@@ -11,10 +11,13 @@ from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
 from .models import Messages, Conversa
+import datetime
 
 def index(request):
     return HttpResponse("Olá mundo! Este é o app Chats do projeto WorkFlow.")
 
+def now_without_microseconds():
+    return datetime.datetime.now().replace(microsecond=0)
 
 @api_view(['GET', 'POST'])
 def api_users(request):
@@ -63,6 +66,8 @@ def api_get_token(request):
 
             if user is not None:
                 token, created = Token.objects.get_or_create(user=user)
+                user.last_login = datetime.datetime.now()
+                user.save()
                 return JsonResponse({"token":token.key})
             else:
                 return HttpResponseForbidden()
@@ -89,8 +94,9 @@ def api_chat_messages(request, user1_id, user2_id):
             text = new_msg["text"]
             user_id = new_msg["user_enviado"]
             user_enviado = User.objects.get(id=user_id)
+            data_horario = now_without_microseconds()
 
-            message = Messages.objects.create(text=text, user_enviado=user_enviado, conversa=conversa_id)
+            message = Messages.objects.create(text=text, user_enviado=user_enviado, conversa=conversa_id, day_time=data_horario)
             message.save()
             messages = Messages.objects.filter(conversa=conversa_id)
 
