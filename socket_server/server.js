@@ -1,3 +1,4 @@
+// server.js (Backend)
 const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
@@ -8,24 +9,32 @@ const io = new Server(server, {
     cors: { origin: '*' }
 });
 
+let connectedUsers = {};
+
 io.on('connection', (socket) => {
-    console.log('a user connected');
+    const userId = socket.handshake.query.userId;
+    connectedUsers[userId] = true;
+
+    console.log('user connected', userId);
+    console.log('Current users logged: ', connectedUsers);
+
+    // Emit the connectedUsers dict to the newly connected user
+    socket.emit('users-connected', connectedUsers);
+
+    // Broadcast the updated connectedUsers dict to all other connected clients
+    socket.broadcast.emit('users-connected', connectedUsers);
 
     socket.on('message', (message) => {
-        console.log(message);
-        const data = {
-            "text": message.text,
-            "userEnviado": message.userEnviado
-        }
         io.emit('message', message);
     });
 
-    socket.on('command', (data) => {
-        console.log('Received command:', data);
-    });
-
     socket.on('disconnect', () => {
-        console.log('user disconnected');
+        delete connectedUsers[userId];
+        socket.broadcast.emit('user-disconnected', userId);
+        console.log('user disconnected', userId);
+
+        // Broadcast the updated connectedUsers dict to all connected clients
+        io.emit('users-connected', connectedUsers);
     });
 });
 
