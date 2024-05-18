@@ -17,7 +17,7 @@ def index(request):
     return HttpResponse("Olá mundo! Este é o app Chats do projeto WorkFlow.")
 
 def now_without_microseconds():
-    return datetime.datetime.now().replace(microsecond=0)
+    return datetime.datetime.now()
 
 @api_view(['GET', 'POST'])
 def api_users(request):
