@@ -94,9 +94,9 @@ def api_chat_messages(request, user1_id, user2_id):
             text = new_msg["text"]
             user_id = new_msg["user_enviado"]
             user_enviado = User.objects.get(id=user_id)
-            data_horario = now_without_microseconds()
+            data_horario = new_msg["time"]
 
-            message = Messages.objects.create(text=text, user_enviado=user_enviado, conversa=conversa_id, day_time=data_horario)
+            message = Messages.objects.create(text=text, user_enviado=user_enviado, conversa=conversa_id, time=data_horario)
             message.save()
             messages = Messages.objects.filter(conversa=conversa_id)
 
