@@ -27,8 +27,7 @@ SECRET_KEY = 'django-insecure-8d$fp&4%(qwwoax@v)9ss9)8&dv%&7iv)s=_06=mjxk@emr0m$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
-
+ALLOWED_HOSTS = ['backend-workflow.onrender.com', 'localhost', '127.0.0.1', '0.0.0.0']
 
 # Application definition
 
