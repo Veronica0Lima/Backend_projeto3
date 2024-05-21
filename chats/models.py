@@ -19,6 +19,6 @@ class Conversa(models.Model):
 
 class Messages(models.Model):
     text = models.CharField(max_length=100)
-    day_time = models.DateTimeField(default=now_without_microseconds)
+    time = models.DateTimeField(default=now_without_microseconds)
     user_enviado = models.ForeignKey(User, on_delete=models.CASCADE)    # ID do Usuário
     conversa = models.ForeignKey(Conversa, on_delete=models.CASCADE)    # ID da Conversa

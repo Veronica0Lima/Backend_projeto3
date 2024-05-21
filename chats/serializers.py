@@ -11,4 +11,4 @@ class UserSerializer(serializers.ModelSerializer):
 class MessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Messages
-        fields = ['id', 'text', 'user_enviado', 'conversa', 'day_time']
+        fields = ['id', 'text', 'user_enviado', 'conversa', 'time']
