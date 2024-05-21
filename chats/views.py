@@ -16,9 +16,6 @@ import datetime
 def index(request):
     return HttpResponse("Olá mundo! Este é o app Chats do projeto WorkFlow.")
 
-def now_without_microseconds():
-    return datetime.datetime.now()
-
 @api_view(['GET', 'POST'])
 def api_users(request):
     users = User.objects.all()
@@ -94,9 +91,10 @@ def api_chat_messages(request, user1_id, user2_id):
             text = new_msg["text"]
             user_id = new_msg["user_enviado"]
             user_enviado = User.objects.get(id=user_id)
-            data_horario = now_without_microseconds()
+            data_horario = datetime.datetime.now()
 
             message = Messages.objects.create(text=text, user_enviado=user_enviado, conversa=conversa_id, day_time=data_horario)
+            print(message.day_time)
             message.save()
             messages = Messages.objects.filter(conversa=conversa_id)
 
